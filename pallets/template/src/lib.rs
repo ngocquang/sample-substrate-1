@@ -37,7 +37,7 @@ pub mod pallet {
 	// Learn more about declaring storage items:
 	// https://docs.substrate.io/v3/runtime/storage#declaring-storage-items
 	// pub type Something<T> = StorageValue<_, u32>;
-	pub type Products<T> = StorageMap<_, Blake2_128Concat, u32, u32>;
+	pub type ProductIds<T> = StorageMap<_, Blake2_128Concat, u32, u32>;
 
 	// Pallets use events to inform users when important changes are made.
 	// https://docs.substrate.io/v3/runtime/events-and-errors
@@ -70,7 +70,7 @@ pub mod pallet {
 		pub fn add_product(
 			origin: OriginFor<T>,
 			product_id: u32,
-			product_name: u32,
+			product_price: u32,
 		) -> DispatchResult {
 			// Check that the extrinsic was signed and get the signer.
 			// This function will return an error if the extrinsic is not signed.
@@ -79,11 +79,11 @@ pub mod pallet {
 
 			// Update storage.
 			// <Something<T>>::put(something);
-			<Products<T>>::insert(product_id, product_name);
+			<ProductIds<T>>::insert(product_id, product_price);
 
 			// Emit an event.
 			// Self::deposit_event(Event::SomethingStored(something, who));
-			Self::deposit_event(Event::ProductStored(product_id, product_name, who));
+			Self::deposit_event(Event::ProductStored(product_id, product_price, who));
 			// Return a successful DispatchResultWithPostInfo
 			Ok(())
 		}
